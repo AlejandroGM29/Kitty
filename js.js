@@ -27,22 +27,22 @@ Flower = function (x, y, r, dx, dy) {
 
 Flower.prototype.setTransforms = function () {
   with (this)
-    element.setAttribute(
-      "transform",
-      "translate(" + x + "," + y + ") rotate(" + r + ")"
-    );
+  element.setAttribute(
+    "transform",
+    "translate(" + x + "," + y + ") rotate(" + r + ")"
+  );
 };
 
 flowers = [];
-for (i = N; i--; )
+for (i = N; i--;)
   flowers.push(
     new Flower((w * R()) | 0, (h * R()) | 0, 360 * R(), ((R() * 5) | 0) - 2, 1)
   );
 
-  
+
 ~(function L(t) {
   t /= 1e3;
-  for (i = N; i--; ) {
+  for (i = N; i--;) {
     f = flowers[i];
     f.r += 1;
     f.x += f.dx;
@@ -73,15 +73,15 @@ Kitty = function (x, y, r, dx, dy) {
 
 Kitty.prototype.setTransforms = function () {
   with (this)
-    element.setAttribute(
-      "transform",
-      "translate(" + x + "," + y + ") rotate(" + r + ")"
-    );
+  element.setAttribute(
+    "transform",
+    "translate(" + x + "," + y + ") rotate(" + r + ")"
+  );
 };
 
 // Crea el array de gatos
 kitties = [];
-for (i = N; i--; ) {
+for (i = N; i--;) {
   kitties.push(
     new Kitty((w * R()) | 0, (h * R()) | 0, 360 * R(), ((R() * 5) | 0) - 2, 1)
   );
@@ -90,7 +90,7 @@ for (i = N; i--; ) {
 // Función de animación para los gatos
 ~(function LKitty(t) {
   t /= 1e3;
-  for (i = N; i--; ) {
+  for (i = N; i--;) {
     k = kitties[i];
     k.r += 1;
     k.x += k.dx;
@@ -103,4 +103,52 @@ for (i = N; i--; ) {
   }
 
   requestAnimationFrame(LKitty);
+})(0);
+
+// Nueva clase para el tercer elemento SVG animado
+Kitty2 = function (x, y, r, dx, dy) {
+  this.x = x;
+  this.y = y;
+  this.r = 0;
+  this.dx = dx;
+  this.dy = dy;
+  var el = (this.element = document.createElementNS(svgNS, "use"));
+  this.setTransforms();
+  el.setAttributeNS(xlinkNS, "href", "#Melody"); // Asigna el ID de tu gato SVG aquí
+  svgMelody.appendChild(el); // svgMelody es el elemento svg donde quieres agregar el gato
+};
+
+Kitty2.prototype.setTransforms = function () {
+  with (this) {
+    element.setAttribute(
+      "transform",
+      "translate(" + x + "," + y + ") rotate(" + r + ")"
+    );
+  }
+};
+
+// Crea el array de gatos
+kitties2 = [];
+for (i = N; i--;) {
+  kitties2.push(
+    new Kitty2((w * R()) | 0, (h * R()) | 0, 360 * R(), ((R() * 5) | 0) - 2, 1)
+  );
+}
+
+// Función de animación para los gatos
+~(function LKitty2(t) {
+  t /= 1e3;
+  for (i = N; i--;) {
+    k = kitties2[i]; // Cambiado de kitties a kitties2
+    k.r += 1;
+    k.x += k.dx;
+    k.y += k.dy;
+    if (k.x > w + 200) k.x -= w + 400;
+    if (k.x < -200) k.x += w + 400;
+    if (k.y > h + 200) k.y -= h + 400;
+    if (k.y < -200) k.y += h + 400;
+    k.setTransforms();
+  }
+
+  requestAnimationFrame(LKitty2);
 })(0);
